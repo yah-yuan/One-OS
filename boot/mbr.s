@@ -4,24 +4,24 @@
 ;       使用10h号中断的功能来实现显示字符
 ;--------------------------------------------------------------
 
-org     7c00H                           ;指示汇编器将程序起始地址定位7c00h
+org     7c00H                           ;指示汇编器将程序起始地址定位7c00h, MBR会被加载到这里
 jmp     Start                           ;程序开始
 
-BootMessage     db      "One os loading..."  ;定义要显示的字符串
+BootMessage     db      "Loading LOADER..."  ;定义要显示的字符串
 
 Start:
-        mov     ax, cs                  ;
-        mov     ds, ax                  ;
-        mov     es, ax                  ;设置段寄存器，以显示字符串
+        mov     ax, cs
+        mov     ds, ax
+        mov     es, ax
         call    clear                   ;清屏
         call    display                 ;显示我们的信息
         jmp     $                       ;死循环
 clear:
-        mov     ah, 06H                 ;设置为屏幕滚动和清屏功能
+        mov     ah, 07H                 ;设置为屏幕滚动和清屏功能
         mov     al, 00H                 ;设置功能为清屏
         mov     ch, 0                   ;设置生效区域的左上角位置（ch代表行，cl代表列）
         mov     cl, 0                   ;
-        mov     dh, 24                  ;设置生效区域的右上角位置（dh代表行，dl代表列）
+        mov     dh, 24                  ;设置生效区域的右下角位置（dh代表行，dl代表列）
         mov     dl, 79                  ;
         int     10H                     ;视频显示中断
         ret
